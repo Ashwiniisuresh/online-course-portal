@@ -1,0 +1,56 @@
+<section class="page-heading cart-heading">
+  <p class="eyebrow">Checkout</p>
+  <h1 class="section-title">Your cart</h1>
+  <p class="section-subtitle">
+    Review your selections before completing a secure checkout.
+  </p>
+</section>
+
+<div class="cart-message" *ngIf="message">
+  {{ message }}
+</div>
+
+<div class="cart-layout" *ngIf="items.length; else emptyState">
+  <div class="cart-items card">
+    <article class="cart-item" *ngFor="let i of items">
+      <div class="item-details">
+        <h3>{{ courseTitle(i) }}</h3>
+        <p>Quantity: {{ i.quantity }}</p>
+        <p>Unit price: {{ coursePrice(i) | currency: 'INR' }}</p>
+        <p class="line-total">
+          Line total: {{ coursePrice(i) * i.quantity | currency: 'INR' }}
+        </p>
+      </div>
+      <button class="btn secondary" type="button" (click)="remove(i.id)">Remove</button>
+    </article>
+  </div>
+
+  <aside class="cart-summary card">
+    <h3>Order summary</h3>
+    <div class="summary-row">
+      <span>Subtotal</span>
+      <strong>{{ total | currency: 'INR' }}</strong>
+    </div>
+    <p class="summary-note">Taxes calculated at checkout.</p>
+    <button
+      class="btn"
+      type="button"
+      (click)="startRazorpayCheckout()"
+      [disabled]="razorpayProcessing"
+    >
+      {{ razorpayProcessing ? 'Contacting Razorpay...' : 'Pay with Razorpay' }}
+    </button>
+  </aside>
+</div>
+
+<ng-template #emptyState>
+  <div class="cart-empty card">
+    <h3>Your cart is empty</h3>
+    <p>Add a course to begin your learning journey.</p>
+  </div>
+</ng-template>
+
+<section *ngIf="lastOrder" class="last-order card">
+  <p class="eyebrow">Last order</p>
+  <p>Order #{{ lastOrder.id }} — {{ lastOrder.amount | currency: 'INR' }} ({{ lastOrder.status }})</p>
+</section>

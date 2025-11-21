@@ -1,0 +1,49 @@
+<section class="page-heading">
+  <p class="eyebrow">Curated catalog</p>
+  <h1 class="section-title">Explore premium courses</h1>
+  <p class="section-subtitle">
+    Streamlined lessons, real-world projects, and lifelong updates to keep you ahead of the curve.
+  </p>
+  <div class="heading__actions">
+    <span>{{ courses.length }} {{ courses.length === 1 ? 'course' : 'courses' }} available</span>
+    <button class="btn secondary" type="button">Request a course</button>
+  </div>
+</section>
+
+<div class="status-banner login-alert" *ngIf="needsLogin">
+  <div>
+    <strong>Sign in required</strong>
+    <p>Please log in to add courses to your cart.</p>
+  </div>
+  <a routerLink="/login" class="btn secondary">Go to login</a>
+</div>
+
+<div class="status-banner" *ngIf="message">
+  {{ message }}
+</div>
+
+<section class="courses-grid" *ngIf="courses.length; else emptyState">
+  <article class="course-card" *ngFor="let c of courses">
+    <header>
+      <p class="course-category">Featured</p>
+      <h3>{{ c.title }}</h3>
+      <p class="course-description">{{ c.description }}</p>
+    </header>
+
+    <div class="course-meta">
+      <span><strong>{{ c.price | currency: 'INR' }}</strong> • Lifetime access</span>
+      <span>HD video • Certificate</span>
+    </div>
+
+    <button class="btn" type="button" (click)="addToCart(c.id)">
+      Add to cart
+    </button>
+  </article>
+</section>
+
+<ng-template #emptyState>
+  <div class="empty-collection card">
+    <h3>No courses yet</h3>
+    <p>We are working on fresh content for you. Check back soon!</p>
+  </div>
+</ng-template>

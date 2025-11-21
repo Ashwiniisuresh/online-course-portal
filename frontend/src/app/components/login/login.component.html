@@ -1,0 +1,24 @@
+<section class="auth-layout">
+  <div class="auth-intro">
+    <p class="eyebrow">Welcome back</p>
+    <h1>Sign in to continue learning</h1>
+    <p>Resume your progress, track purchases, and access your personalized dashboard.</p>
+  </div>
+
+  <div class="auth-card card">
+    <h2>Login</h2>
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      <label>Email</label>
+      <input formControlName="email" type="email" placeholder="you@example.com" />
+
+      <label>Password</label>
+      <input formControlName="password" type="password" placeholder="Enter your password" />
+
+      <div *ngIf="error" class="form-error">
+        <small class="error">{{ error }}</small>
+      </div>
+
+      <button class="btn" type="submit">Login</button>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,94 @@
+
+<section class="purchased">
+  <header class="purchased__hero">
+    <div class="purchased__hero-content">
+      <p class="eyebrow">Your learning journey</p>
+      <h1>Purchased courses</h1>
+      <p class="subtitle">
+        Keep track of every enrollment and quickly jump back into your in-progress content.
+      </p>
+      <div class="hero__meta">
+        <div class="hero__stat">
+          <span class="label">Total Orders</span>
+          <strong>{{ orders.length }}</strong>
+        </div>
+        <div class="hero__stat">
+          <span class="label">Last Updated</span>
+          <strong>{{ today | date: 'mediumDate' }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="purchased__hero-graphic" aria-hidden="true">
+      <div class="pulse"></div>
+      <div class="orbit"></div>
+      <div class="orbit small"></div>
+    </div>
+  </header>
+
+  <div class="purchased__alerts">
+    <div class="alert info" *ngIf="confirming">Confirming your payment...</div>
+    <div class="alert" *ngIf="message">{{ message }}</div>
+  </div>
+
+  <div class="purchased__content" *ngIf="orders.length; else emptyState">
+    <h2>Order history</h2>
+    <p class="helper-text">
+      Orders are organized from newest to oldest. Expand each order to review the courses you unlocked.
+    </p>
+
+    <div class="orders">
+      <article class="order-card" *ngFor="let o of orders">
+        <div class="order-card__header">
+          <div>
+            <p class="order-number">Order #{{ o.id }}</p>
+            <p class="order-date">
+              <span class="badge" [class.badge--success]="o.status === 'paid'">{{ o.status }}</span>
+              <span>
+                Placed on
+                <strong>{{ o.paidAt ? (o.paidAt | date: 'medium') : 'N/A' }}</strong>
+              </span>
+            </p>
+          </div>
+          <div class="order-amount">
+            <span>Total</span>
+            <strong>{{ o.amount | currency: (o.currency || 'INR') }}</strong>
+          </div>
+        </div>
+
+        <div class="order-card__body" *ngIf="o.items?.length; else noCourses">
+          <p class="course-count">
+            {{ o.items.length }} {{ o.items.length === 1 ? 'Course' : 'Courses' }} included
+          </p>
+          <ul class="courses">
+            <li *ngFor="let item of o.items">
+              <div class="course-chip">
+                <span class="course-icon">▶</span>
+                <div>
+                  <p class="course-title">{{ item.course?.title || 'Course' }}</p>
+                  <p class="course-meta">
+                    Qty {{ item.quantity }} •
+                    {{ item.unitPrice | currency: (o.currency || 'INR') }}
+                  </p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <ng-template #noCourses>
+          <p class="helper-text">No course details available for this order.</p>
+        </ng-template>
+      </article>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <div class="empty-graphic" aria-hidden="true">
+        <span></span>
+      </div>
+      <h2>No purchases yet</h2>
+      <p>Browse our catalog to find your next course and it will appear here after checkout.</p>
+      <button type="button" class="btn-ghost">Browse courses</button>
+    </div>
+  </ng-template>
+</section>

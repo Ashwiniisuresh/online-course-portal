@@ -1,0 +1,24 @@
+<section class="auth-layout">
+  <div class="auth-intro">
+    <p class="eyebrow">Create account</p>
+    <h1>Join the learning collective</h1>
+    <p>Get unlimited access to hand-picked courses and exclusive community perks.</p>
+  </div>
+
+  <div class="auth-card card">
+    <h2>Register</h2>
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      <label>Name</label>
+      <input formControlName="name" placeholder="Your full name" />
+
+      <label>Email</label>
+      <input formControlName="email" placeholder="you@example.com" />
+
+      <label>Password</label>
+      <input formControlName="password" type="password" placeholder="Create a password" />
+
+      <div *ngIf="msg"><small>{{ msg }}</small></div>
+      <button class="btn" type="submit">Register</button>
+    </form>
+  </div>
+</section>
